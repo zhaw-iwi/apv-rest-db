@@ -15,7 +15,7 @@ connection = mysql.createPool({
 function createRoutes(app) {
 
     //////////////////////////////////////////////////////////////////////////
-    // Generic method to get records in a table
+    // Get all cities
     // GET /api/city?limit=<limit>&search=<search>
     //////////////////////////////////////////////////////////////////////////
     app.get('/api/city', (req, res) => {
@@ -28,14 +28,14 @@ function createRoutes(app) {
 
         // set searchString
         var searchString = "%";
-        if (req.query.search) { 
+        if (req.query.search) {
             searchString = '%' + req.query.search + '%';
         }
-        
+
         var sql = `SELECT * 
-                   FROM city
-                   WHERE Name LIKE ?
-                   LIMIT ?`;
+                FROM city
+                WHERE Name LIKE ?
+                LIMIT ?`;
 
         connection.query(sql, [searchString, limit], (error, results, fields) => {
             if (error) {
@@ -82,9 +82,9 @@ function createRoutes(app) {
 
         // More complex query on tables "city" and "country"
         var sql = `SELECT city.name as Gemeinde, city.Population as Einwohner
-                   FROM city
-                   INNER JOIN country ON city.CountryID=country.ID
-                   WHERE city.CountryID=?`;
+                FROM city
+                INNER JOIN country ON city.CountryID=country.ID
+                WHERE city.CountryID=?`;
 
         connection.query(sql, [countryId], (error, results, fields) => {
             if (error) {
@@ -117,7 +117,7 @@ function createRoutes(app) {
 
 
         var sql = `INSERT INTO city (Name, Population, CountryID)
-                   VALUES (?,?,?)`
+                VALUES (?,?,?)`
 
         connection.query(sql, [name, population, countryID], (error, results, fields) => {
             if (error) {
@@ -153,8 +153,8 @@ function createRoutes(app) {
         var countryId = req.body.countryID;
 
         var sql = `UPDATE city
-                   SET name = ?, population = ?, countryID = ?
-                   WHERE ID = ?;`
+                SET name = ?, population = ?, countryID = ?
+                WHERE ID = ?;`
 
         connection.query(sql, [name, population, countryId, cityId], (error, results, fields) => {
             if (error) {
@@ -188,8 +188,8 @@ function createRoutes(app) {
         }
 
         var sql = `SELECT * 
-                   FROM ?? 
-                   LIMIT ?`;
+                FROM ?? 
+                LIMIT ?`;
 
         connection.query(sql, [table, limit], (error, results, fields) => {
             if (error) {
