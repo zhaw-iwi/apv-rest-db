@@ -1,4 +1,11 @@
-const config = require('./config')
+
+var config;
+
+try {
+    config = require('./config');
+} catch {
+    config = {};
+}
 
 var mysql = require('mysql');
 
